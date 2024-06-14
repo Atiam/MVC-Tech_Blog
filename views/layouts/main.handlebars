@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8' />
+    <title>Tech Blog</title>
+    {{!-- <link rel='stylesheet' href='/css/jass.css' />
+    <link rel='stylesheet' href='/css/style.css' /> --}}
+  </head>
+
+  <body>
+    <div>
+      <header>
+
+         <h1>
+            <a href='/'>TECH BLOG</a>
+         </h1> 
+         <nav>
+            {{!-- {{#if loggedIn}} --}}
+            {{!-- <a href="/dashboard">Dashboard</a> --}}
+            {{!-- <button id="logout">Logout</button> --}}
+            <a href="/login">Login</a>
+            <a href="/signup">Sign Up</a>
+
+         </nav>
+      </header>
+      <div>
+        {{!-- <div>
+          <h1>The Tech Blog</h1>
+        </div> --}}
+      </div>
+      <main>
+        {{{body}}}
+      </main>
+
+    </div>
+
+  </body>
+</html>
