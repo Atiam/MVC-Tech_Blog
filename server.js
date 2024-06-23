@@ -1,37 +1,48 @@
-// DEPENDENCIES___________________
-const express = require('express');
-const path = require('path');
-const session = require('express-session');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-// REQUIRE FOR CONTROLLERS AND DATABASE CONNECTION _________________
+const PORT = process.env.PORT || 3001;
+const path = require('path');
+const express = require('express');
+const session = require('express-session');
+const exphbs = require('express-handlebars');
 const routes = require('./controllers');
 const sequelize = require('./config/connection');
-
-
-
-// APP/PORT _________________________
-const app = express();
-const PORT = process.env.PORT || 3001;
-
-// HANDLEBARS SETUP BOILERPLATE ___________
-const exphbs = require('express-handlebars');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const hbs = exphbs.create({});
-app.engine('handlebars', hbs.engine); 
-app.set('view engine', 'handlebars');
+
+// app.engine('handlebars', hbs.engine); 
+const app = express();
+// const handlebars = require('handlebars');
+
+
+// // HANDLEBARS HELPERS _______________________
+// handlebars.registerHelper('format_date', (date) => {
+//     return date.toLocaleDateString();
+// });
+// // HANDLEBARS SETUP BOILERPLATE ___________
+// app.set('view engine', 'handlebars');
 
 //SESSION _______________________
 
 const sess = {
-  secret: 'process.env.DB_SECRET,',
-  cookie: {},
-  resave: false,
-  saveUninitialized: true,
-  store: new SequelizeStore({
-    db: sequelize
-  })
+    secret: 'Super secret secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 60 * 60 * 1000,
+        httpOnly: true,
+        secure: false,
+        sameSite: 'strict'
+    },
+    store: new SequelizeStore(
+        {
+            db: sequelize
+        }
+    )
 };
+
 app.use(session(sess));
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
 
 // MIDDLEWARES_________________________________  
 app.use(express.json());

@@ -43,9 +43,7 @@ User.init({
     freezeTableName: true,
     underscored: true,
     timestamps: false,
-
-
   }
 )
-console.log('user model -->', {User});
+
 module.exports = User;

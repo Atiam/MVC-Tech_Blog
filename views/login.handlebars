@@ -1,24 +1,21 @@
-<section>
-  <div>
-    <h1>Log In</h1>
+<div class="container-fluid d-flex justify-content-center">
+<h1 class="d-inline p-2 m-2 text-bg text-white">Login</h1>
+</div>
+{{!-- <div class="d-inline p-2 text-bg-primary">d-inline</div> --}}
+<div class="container d-flex justify-content-center">
+  <div class="form login-form">
+    <div class="mb-3">
+      <label for="email" class="form-label mt-3 px-3 text-white">Email address:</label>
+      <input type="email" class="form-control px-2 mx-2" id="email" aria-describedby="emailHelp">
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label px-3 text-white">Password:</label>
+      <input type="password" class="form-control px-2 mx-2" id="password">
+    </div>
+    <button type="button" class="btn btn-outline-success p-2 m-2 text-white" id="loginBtn">Login</button>
   </div>
-  <div>
-    <form class="login-form">
-      <div>
-        <label for="username-login">Username</label>
-        <input type="text" class="entry-field" id="username-login" />
-      </div>
-      <div>
-        <label for="password-login">Password</label>
-        <input type="password" class="entry-field" id="password-login" />
-      </div>
-      <div>
-        <button type="submit">Log In</button>
-      </div>
-
-    </form>
-  </div>
-  <a href="/signup" class="sign-in-link">Sign Up instead</a>
-</section>
-
+</div>
+<div class="container d-flex justify-content-center">
+<a class="text-white" href="/signup">Sign Up</a>
+</div>
 <script src="/js/login.js"></script>
