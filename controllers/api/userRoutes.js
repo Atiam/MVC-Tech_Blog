@@ -3,7 +3,7 @@ const { User, Blog_post, Comment } = require("../../models");
 const withAuthentication = require(`../../utils/loggedin.js`);
 
 // CREATE A NEW USER /api/users
-router.post("/sighup", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const userData = await User.create({
       username: req.body.username,
@@ -68,99 +68,99 @@ router.post("/login", async (req, res) => {
 });
 
 
-//Route do display  logged in user's blog posts
-router.get(`/dashboard`, withAuthentication, async (req, res) => {
-  if (req.session.logged_in) {
-    //Retrieve the current user's ID from the session
-    const user_id = req.session.user_id;
-    if (user_id){
-      //Find the blog posts belonging to the logged in user
-      Blog_post.findAll({
-        where: {
-          user_id,
-        },
-        include: [
-          {
-            model: User,
-            attributes: ["username"],
-          },
-        ],
-      })
-        .then((dbBlogData) => {
-          //Serialize data so the template can read it
-          const blog_posts = dbBlogData.map((blog_post) => blog_post.get({ plain: true }));
-          //Pass the blog posts into the homepage template
-          res.render("dashboard", {
-            blog_posts,
-            logged_in: true,
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-          res.status(500).json(err);
-        });
-    } else{
-      res.status(400).end(`User not find`);
-    }
-  } else {
-    res.redirect("/login"); //Redirect to the login page if the user is not authenticated
-  }
-});
+// //Route do display  logged in user's blog posts
+// router.get(`/dashboard`, withAuthentication, async (req, res) => {
+//   if (req.session.logged_in) {
+//     //Retrieve the current user's ID from the session
+//     const user_id = req.session.user_id;
+//     if (user_id){
+//       //Find the blog posts belonging to the logged in user
+//       Blog_post.findAll({
+//         where: {
+//           user_id,
+//         },
+//         include: [
+//           {
+//             model: User,
+//             attributes: ["username"],
+//           },
+//         ],
+//       })
+//         .then((dbBlogData) => {
+//           //Serialize data so the template can read it
+//           const blog_posts = dbBlogData.map((blog_post) => blog_post.get({ plain: true }));
+//           //Pass the blog posts into the homepage template
+//           res.render("dashboard", {
+//             blog_posts,
+//             logged_in: true,
+//           });
+//         })
+//         .catch((err) => {
+//           console.log(err);
+//           res.status(500).json(err);
+//         });
+//     } else{
+//       res.status(400).end(`User not find`);
+//     }
+//   } else {
+//     res.redirect("/login"); //Redirect to the login page if the user is not authenticated
+//   }
+// });
 
 
-// Create a new blog post
-router.post(`/dashboard`, withAuthentication, async (req, res) => {
-  if (req.session.logged_in) {
-    //Retrieve the current user's ID from the session
-    const user_id = req.session.user_id;
-    if (user_id){
-      //Create a new blog post with the user_id
-      Blog_post.create({
-        title: req.body.title,
-        content: req.body.content,
-        user_id,
-      })
-        .then((dbBlogData) => {
-          res.json(dbBlogData);
-        })
-        .catch((err) => {
-          console.log(err);
-          res.status(500).json(err);
-        });
-    } else{
-      res.status(400).end(`User not find`);
-    }
-  } else {
-    res.redirect("/login"); //Redirect to the login page if the user is not authenticated
-  }
-}); 
+// // Create a new blog post
+// router.post(`/dashboard`, withAuthentication, async (req, res) => {
+//   if (req.session.logged_in) {
+//     //Retrieve the current user's ID from the session
+//     const user_id = req.session.user_id;
+//     if (user_id){
+//       //Create a new blog post with the user_id
+//       Blog_post.create({
+//         title: req.body.title,
+//         content: req.body.content,
+//         user_id,
+//       })
+//         .then((dbBlogData) => {
+//           res.json(dbBlogData);
+//         })
+//         .catch((err) => {
+//           console.log(err);
+//           res.status(500).json(err);
+//         });
+//     } else{
+//       res.status(400).end(`User not find`);
+//     }
+//   } else {
+//     res.redirect("/login"); //Redirect to the login page if the user is not authenticated
+//   }
+// }); 
 
-// Comment on a blog post
-router.post(`/comment`, withAuthentication, async (req, res) => {
-  if (req.session.logged_in) {
-    //Retrieve the current user's ID from the session
-    const user_id = req.session.user_id;
-    if (user_id){
-      //Create a new comment with the user_id
-      Comment.create({
-        content: req.body.content,
-        blog_post_id: req.body.blog_post_id,
-        user_id,
-      })
-        .then((dbCommentData) => {
-          res.json(dbCommentData);
-        })
-        .catch((err) => {
-          console.log(err);
-          res.status(500).json(err);
-        });
-    } else{
-      res.status(400).end(`User not find`);
-    }
-  } else {
-    res.redirect("/login"); //Redirect to the login page if the user is not authenticated
-  }
-});
+// // Comment on a blog post
+// router.post(`/comment`, withAuthentication, async (req, res) => {
+//   if (req.session.logged_in) {
+//     //Retrieve the current user's ID from the session
+//     const user_id = req.session.user_id;
+//     if (user_id){
+//       //Create a new comment with the user_id
+//       Comment.create({
+//         content: req.body.content,
+//         blog_post_id: req.body.blog_post_id,
+//         user_id,
+//       })
+//         .then((dbCommentData) => {
+//           res.json(dbCommentData);
+//         })
+//         .catch((err) => {
+//           console.log(err);
+//           res.status(500).json(err);
+//         });
+//     } else{
+//       res.status(400).end(`User not find`);
+//     }
+//   } else {
+//     res.redirect("/login"); //Redirect to the login page if the user is not authenticated
+//   }
+// });
 
 
 // Logout
